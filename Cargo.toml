@@ -3,6 +3,7 @@ name = "rust-lstar"
 version = "0.2.0"
 edition = "2021"
 description = "L* (Angluin's) Grammatical Inference Algorithm for learning Deterministic Finite Automata"
+documentation = "https://docs.rs/rust-lstar/0.2.0/rust_lstar/"
 license = "GPL-3.0"
 repository = "https://github.com/arpan-vs/rust-lstar"
 keywords = ["automata", "learning", "lstar", "inference", "dfa"]
