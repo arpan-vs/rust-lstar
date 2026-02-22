@@ -1,0 +1,9 @@
+/target
+/tmp
+*.dot
+*.raw
+*.md
+!CHANGELOG.md
+!QUICKSTART.md
+!DESIGN.md
+!README.md
