@@ -12,9 +12,9 @@ fn add_transition(
     i: &Letter,
     o: &Letter,
 ) {
-    transitions.push(transition::Transition::new_with_source(
+    transitions.push(transition::Transition::new(
         counter.to_string(),
-        src.name.clone(),
+        src.clone(),
         dst.clone(),
         i.clone(),
         o.clone(),

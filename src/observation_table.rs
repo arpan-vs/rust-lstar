@@ -406,7 +406,7 @@ impl ObservationTable {
             .collect();
         for i in 0..words_and_states.len() {
             let word = words_and_states[i].0.clone();
-            let source_state_name = words_and_states[i].1.name.clone();
+            let source_state_name = words_and_states[i].1.clone();
 
             for (input_letter, input_letter_word) in &input_words {
                 let new_word = word.concatenate(input_letter_word);
@@ -430,7 +430,7 @@ impl ObservationTable {
                     })?;
 
                 let transition_name = format!("t{}", transitions.len());
-                let transition = Transition::new_with_source(
+                let transition = Transition::new(
                     transition_name,
                     source_state_name.clone(),
                     words_and_states[output_state_idx].1.clone(),

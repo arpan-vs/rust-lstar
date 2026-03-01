@@ -77,9 +77,9 @@ pub fn parse_graph_entry(graph_entry: &str, states: &mut Vec<State>) -> Result<(
 
             // Note: transitions cannot be added without access to source state
             if let Some(state) = states.iter_mut().find(|s| s.name == src) {
-                state.add_transition(Transition::new_with_source(
+                state.add_transition(Transition::new(
                     t_name,
-                    src.clone(),
+                    State::new(src),
                     State::new(dest),
                     Letter::new(input),
                     Letter::new(output),
@@ -135,13 +135,13 @@ pub fn build_dot_code(automata: &Automata) -> String {
         && automata
             .transitions
             .iter()
-            .all(|transition| !transition.source_state.is_empty());
+            .all(|transition| !transition.source_state.name.is_empty());
 
     if can_use_flat_transitions {
         let mut state_names: Vec<String> = vec![automata.initial_state.name.clone()];
         for transition in &automata.transitions {
-            if !state_names.contains(&transition.source_state) {
-                state_names.push(transition.source_state.clone());
+            if !state_names.contains(&transition.source_state.name) {
+                state_names.push(transition.source_state.name.clone());
             }
             if !state_names.contains(&transition.output_state.name) {
                 state_names.push(transition.output_state.name.clone());

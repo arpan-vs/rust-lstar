@@ -258,6 +258,7 @@ mod tests {
         s0.add_transition(Transition::new(
             "t0".to_string(),
             State::new("S0".to_string()),
+            State::new("S0".to_string()),
             Letter::new("a"),
             Letter::new(output_symbol),
         ));

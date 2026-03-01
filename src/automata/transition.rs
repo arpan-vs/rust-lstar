@@ -7,7 +7,7 @@ pub struct Transition {
     /// Transition identifier.
     pub name: String,
     /// Source-state name used by flat transition representations.
-    pub source_state: String,
+    pub source_state: State,
     /// Destination state.
     pub output_state: State,
     /// Input letter consumed by the transition.
@@ -20,23 +20,7 @@ impl Transition {
     /// Create a transition without explicit source-state metadata.
     pub fn new(
         name: String,
-        output_state: State,
-        input_letter: Letter,
-        output_letter: Letter,
-    ) -> Self {
-        Transition {
-            name,
-            source_state: String::new(),
-            output_state,
-            input_letter,
-            output_letter,
-        }
-    }
-
-    /// Create a transition with explicit source-state metadata.
-    pub fn new_with_source(
-        name: String,
-        source_state: String,
+        source_state: State,
         output_state: State,
         input_letter: Letter,
         output_letter: Letter,

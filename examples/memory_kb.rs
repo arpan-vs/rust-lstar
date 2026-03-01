@@ -100,14 +100,13 @@ fn build_random_machine(
     let mut transition_id = 0usize;
 
     for state_idx in 0..state_count {
-        let source_state = format!("S{}", state_idx);
         for input_symbol in input_symbols {
             let next_state_idx = rng.gen_range(0, state_count);
             let output_idx = rng.gen_range(0, output_symbols.len());
 
-            transitions.push(Transition::new_with_source(
+            transitions.push(Transition::new(
                 format!("t{}", transition_id),
-                source_state.clone(),
+                State::new(format!("S{}", state_idx)),
                 State::new(format!("S{}", next_state_idx)),
                 Letter::new(*input_symbol),
                 Letter::new(output_symbols[output_idx]),

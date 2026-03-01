@@ -79,7 +79,7 @@ impl RandomWalkMethod {
             && hypothesis
                 .transitions
                 .iter()
-                .all(|transition| !transition.source_state.is_empty());
+                .all(|transition| !transition.source_state.name.is_empty());
         if !can_use_flat_transitions {
             return None;
         }
@@ -87,7 +87,7 @@ impl RandomWalkMethod {
         let mut outgoing: HashMap<String, Vec<(String, Letter, Letter)>> = HashMap::new();
         for transition in &hypothesis.transitions {
             outgoing
-                .entry(transition.source_state.clone())
+                .entry(transition.source_state.name.clone())
                 .or_default()
                 .push((
                     transition.output_state.name.clone(),
@@ -249,9 +249,9 @@ mod tests {
     fn build_flat_single_state_automata(output_symbol: &str) -> Automata {
         let initial = State::new("0".to_string());
         let mut automata = Automata::new(initial, "A".to_string());
-        automata.transitions = vec![Transition::new_with_source(
+        automata.transitions = vec![Transition::new(
             "t0".to_string(),
-            "0".to_string(),
+            State::new("0".to_string()),
             State::new("0".to_string()),
             Letter::new("a"),
             Letter::new(output_symbol),

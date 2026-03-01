@@ -1,7 +1,6 @@
 use super::active::ActiveKnowledgeBase;
 use super::base::{KnowledgeBase, KnowledgeBaseTrait};
-use crate::automata::Automata;
-use crate::letter::Letter;
+use crate::automata::{Automata, State};
 use crate::query::OutputQuery;
 /// Fake active knowledge base implementation
 /// Uses a preset automata to simulate target behavior
@@ -51,20 +50,18 @@ impl ActiveKnowledgeBase for FakeActiveKnowledgeBase {
             return Err("Automata cannot be None".to_string());
         }
 
-        let automata = self.automata.as_ref().unwrap();
-        let mut current_state = automata.initial_state.clone();
+        let automata = self.automata.as_mut().unwrap();
+        let mut current_state_name = automata.initial_state.name.clone();
         let mut output_letters = Vec::new();
 
         for letter in word.letters() {
-            match current_state.visit(letter) {
-                Some((output_letter, next_state)) => {
-                    output_letters.push(output_letter.clone());
-                    current_state = next_state.clone();
-                }
-                None => {
-                    output_letters.push(Letter::new(""));
-                }
-            }
+            let (output_word, visited_states) = automata.play_word(
+                &Word::from_letters(vec![letter.clone()]),
+                Some(&State::new(current_state_name.clone())),
+            )?;
+
+            output_letters.push(output_word.letters()[0].clone());
+            current_state_name = visited_states[0].name.clone();
         }
 
         Ok(Word::from_letters(output_letters))

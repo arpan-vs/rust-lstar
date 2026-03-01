@@ -110,7 +110,7 @@ impl Hash for Letter {
 
 impl fmt::Display for Letter {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.name())
+        write!(f, "{}", self.symbols())
     }
 }
 

@@ -40,7 +40,7 @@ impl BDistMethod {
             && hypothesis
                 .transitions
                 .iter()
-                .all(|transition| !transition.source_state.is_empty())
+                .all(|transition| !transition.source_state.name.is_empty())
     }
 
     fn outgoing_inputs(&self, hypothesis: &Automata, state_name: &str) -> Vec<(Letter, String)> {
@@ -48,7 +48,7 @@ impl BDistMethod {
             return hypothesis
                 .transitions
                 .iter()
-                .filter(|t| t.source_state == state_name)
+                .filter(|t| t.source_state.name == state_name)
                 .map(|t| (t.input_letter.clone(), t.output_state.name.clone()))
                 .collect();
         }
@@ -286,6 +286,7 @@ mod tests {
         let mut s0 = State::new("S0".to_string());
         s0.add_transition(Transition::new(
             "t0".to_string(),
+            State::new("S0".to_string()),
             State::new("S0".to_string()),
             Letter::new("a"),
             Letter::new(output_symbol),

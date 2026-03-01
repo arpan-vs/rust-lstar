@@ -20,7 +20,7 @@ impl Automata {
             && self
                 .transitions
                 .iter()
-                .all(|transition| !transition.source_state.is_empty())
+                .all(|transition| !transition.source_state.name.is_empty())
     }
 
     pub fn new(initial_state: State, name: String) -> Self {
@@ -63,7 +63,7 @@ impl Automata {
         let mut index = HashMap::with_capacity(self.transitions.len());
         for (i, transition) in self.transitions.iter().enumerate() {
             index
-                .entry(transition.source_state.clone())
+                .entry(transition.source_state.name.clone())
                 .or_insert_with(HashMap::new)
                 .insert(transition.input_letter.clone(), i);
         }
@@ -74,22 +74,22 @@ impl Automata {
     pub fn get_states(&self) -> Vec<State> {
         if self.can_use_flat_transitions() {
             let mut seen: HashSet<String> = HashSet::new();
-            let mut state_names: Vec<String> = Vec::new();
+            let mut state_names: Vec<State> = Vec::new();
 
             if seen.insert(self.initial_state.name.clone()) {
-                state_names.push(self.initial_state.name.clone());
+                state_names.push(self.initial_state.clone());
             }
 
             for transition in &self.transitions {
-                if seen.insert(transition.source_state.clone()) {
+                if seen.insert(transition.source_state.name.clone()) {
                     state_names.push(transition.source_state.clone());
                 }
                 if seen.insert(transition.output_state.name.clone()) {
-                    state_names.push(transition.output_state.name.clone());
+                    state_names.push(transition.output_state.clone());
                 }
             }
 
-            return state_names.into_iter().map(State::new).collect();
+            return state_names.into_iter().collect();
         }
 
         // Visits the automata to discover all the available states.
